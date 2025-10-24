@@ -1,31 +1,39 @@
-# Designing Your Machine Learning System
+# English → French QA Pipeline
 
-This is an exciting and open-ended design question that builds upon the knowledge and skills you've gained from Task A, B, and C. In this task, you'll be challenged to design a machine learning system that takes questions in English and provides answers in French.
+Extract answers from English context using a pretrained QA model and translate them to French using a pretrained translation model. Uses Hugging Face models only, no training required. Ready to run in Kaggle or any Python environment.
 
-## Task Overview
+## Architecture
+- Input: English context + question  
+- QA Module: `deepset/roberta-base-squad2` → outputs English answer  
+- Translation Module: `Helsinki-NLP/opus-mt-en-fr` → outputs French answer  
+- Output: English and French answers
 
-This task is the culmination of your journey through Task A, B, and C. It's an opportunity for you to put your machine learning and natural language processing skills to the test. Your objective is to design a system that can intelligently understand English questions and generate accurate, contextually relevant answers in French, similar to the Question and Answering that you did in Task C.
+## Requirements
+- Python 3.8+  
+- Libraries: `transformers`, `torch`  
+- Install: `pip install transformers torch`
 
-## Task Specifics
+## Usage
+```python
+from src.qa_translate import english_to_french_qa
 
-- **Understanding the Problem:** Before you dive into designing the system, it's crucial to have a good understanding of the problem statement. Review the tasks from A to C and the resources provided to form a solid foundation.
+context = "Harry Potter is a series written by J.K. Rowling."
+question = "Who wrote the Harry Potter series?"
 
-- **Incorporate Knowledge:** Task D is where you bring together everything you've learned. You can use the word embeddings created in Task A, explore machine translation techniques from Task B, and implement question-answering systems from Task C. This is where the magic happens.
+english_answer, french_answer = english_to_french_qa(question, context)
+print("English Answer:", english_answer)
+print("French Answer:", french_answer)
+```
 
-- **Open-Ended Design:** This is a design question, meaning there's no one "correct" answer. You have the creative freedom to design your machine learning system the way you see fit. Explain your design choices and the reasoning behind them in detail. The more creative the better!
 
-- **Documentation:** Your README should be well-structured and include explanations of your system's architecture, algorithms, models, and any other components. Provide clear, step-by-step instructions on how to use and evaluate your system. Please keep the documentation concise and in bullet points, we don't want bloated ChatGPT text.
 
-- **Demonstration:** Consider providing examples of how your system performs, including sample English questions and their corresponding French answers.
+## Evaluation
+- **QA:** Exact Match (EM), F1 score  
+- **Translation:** BLEU or ChrF for short answers  
 
-- **Balancing Theory and Implementation:** While the focus is on design, a good design should be well-informed by theory and practically implementable. Strike a balance between the two.
+## Notes
+- QA is extractive; context must contain the answer  
+- Names/entities usually remain unchanged in translation  
+- Translation model can be swapped for other languages  
+- Batch translation improves speed on large datasets  
 
-## Questions and Support
-
-If you have any questions, need clarifications, or encounter challenges, feel free to reach out to the group. We encourage active discussion and knowledge-sharing among the participants.
-
-## Submission
-
-When you're ready to submit your solution for Task D, make sure to include all relevant documentation and code. Organize your repository to make it easy for reviewers to understand your design and implementations. You can submit multiple times and make improvements to your system as time progresses. You can have multiple systems as well! Feel free to try out everything! Don't wait until the last minute to start this task. Give yourself ample time to explore, design, implement, and document your system. 
-
-Good luck, and enjoy the journey of designing your own machine learning system! 🚀
